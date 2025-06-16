@@ -16,6 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const percent50KgSpan = document.getElementById('percent50Kg');
     const percent75LbsSpan = document.getElementById('percent75Lbs');
     const percent75KgSpan = document.getElementById('percent75Kg');
+    const saveResultButton = document.getElementById('saveResult');
+    const savedResultsList = document.getElementById('savedResultsList');
+    const clearSavedResultsButton = document.getElementById('clearSavedResults');
+    const movementSelect = document.getElementById('movementSelect');
+    const filterMovementSelect = document.getElementById('filterMovementSelect');
+    const bodyWeightKgInput = document.getElementById('bodyWeightKg');
+    const bodyWeightPercentageSpan = document.getElementById('bodyWeightPercentage');
 
     const BAR_WEIGHTS_LBS = {
         male: 45,
@@ -85,6 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
         totalLbsSpan.textContent = totalWeightLbs.toFixed(2);
         totalKgSpan.textContent = totalWeightKg.toFixed(2);
 
+        // Calculate and display percentage of body weight
+        const bodyWeightKg = parseFloat(bodyWeightKgInput.value);
+        if (!isNaN(bodyWeightKg) && bodyWeightKg > 0) {
+            const percentage = (totalWeightKg / bodyWeightKg) * 100;
+            bodyWeightPercentageSpan.textContent = `${percentage.toFixed(2)}%`;
+        } else {
+            bodyWeightPercentageSpan.textContent = '0%';
+        }
+
         // Calculate and display percentages
         percent25LbsSpan.textContent = (totalWeightLbs * 0.25).toFixed(2);
         percent25KgSpan.textContent = (totalWeightKg * 0.25).toFixed(2);
@@ -94,6 +110,69 @@ document.addEventListener('DOMContentLoaded', () => {
         percent75KgSpan.textContent = (totalWeightKg * 0.75).toFixed(2);
 
         updateLabels(); // Update labels after calculation
+    }
+
+    function saveResult() {
+        const currentLbs = parseFloat(totalLbsSpan.textContent);
+        const currentKg = parseFloat(totalKgSpan.textContent);
+        const savedResults = JSON.parse(localStorage.getItem('lpoResults')) || [];
+
+        const selectedMovement = movementSelect.value;
+        const bodyWeightKg = parseFloat(bodyWeightKgInput.value);
+        const newResult = {
+            movement: selectedMovement,
+            lbs: currentLbs,
+            kg: currentKg,
+            bodyWeightKg: bodyWeightKg, // Save body weight
+            date: new Date().toLocaleString()
+        };
+
+        savedResults.push(newResult);
+        localStorage.setItem('lpoResults', JSON.stringify(savedResults));
+        loadSavedResults(); // Refresh the displayed list
+    }
+
+    function loadSavedResults() {
+        savedResultsList.innerHTML = ''; // Clear current list
+        const savedResults = JSON.parse(localStorage.getItem('lpoResults')) || [];
+        const selectedFilterMovement = filterMovementSelect.value;
+
+        const movements = new Set();
+        movements.add('all'); // Add "Todos os Movimentos" option
+
+        let filteredResults = savedResults;
+        if (selectedFilterMovement !== 'all') {
+            filteredResults = savedResults.filter(result => result.movement === selectedFilterMovement);
+        }
+
+        if (filteredResults.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = 'Nenhum resultado salvo ainda para este filtro.';
+            savedResultsList.appendChild(li);
+        } else {
+            filteredResults.forEach(result => {
+                const li = document.createElement('li');
+            const bodyWeightInfo = result.bodyWeightKg ? ` (BW: ${result.bodyWeightKg.toFixed(1)}kg)` : '';
+            li.textContent = `${result.date} - ${result.movement}: ${result.lbs.toFixed(2)} lbs / ${result.kg.toFixed(2)} kg${bodyWeightInfo}`;
+            savedResultsList.appendChild(li);
+        });
+        }
+
+        // Populate filter dropdown with unique movements
+        savedResults.forEach(result => movements.add(result.movement));
+        filterMovementSelect.innerHTML = ''; // Clear existing options
+        movements.forEach(movement => {
+            const option = document.createElement('option');
+            option.value = movement;
+            option.textContent = movement === 'all' ? 'Todos os Movimentos' : movement;
+            filterMovementSelect.appendChild(option);
+        });
+        filterMovementSelect.value = selectedFilterMovement; // Keep the selected filter
+    }
+
+    function clearSavedResults() {
+        localStorage.removeItem('lpoResults');
+        loadSavedResults(); // Clear the displayed list
     }
 
     // Add event listeners to bar type radios
@@ -111,7 +190,25 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('change', calculateTotalWeight);
     });
 
+    // Add event listeners for save/clear buttons
+    saveResultButton.addEventListener('click', saveResult);
+    clearSavedResultsButton.addEventListener('click', clearSavedResults);
+
+    // Add event listener for filter dropdown
+    filterMovementSelect.addEventListener('change', loadSavedResults);
+
+    // Add event listener for body weight input
+    bodyWeightKgInput.addEventListener('input', () => {
+        localStorage.setItem('bodyWeightKg', bodyWeightKgInput.value); // Save body weight
+        calculateTotalWeight(); // Recalculate on body weight change
+    });
+
     // Initial calculation and label update on page load
+    const savedBodyWeight = localStorage.getItem('bodyWeightKg');
+    if (savedBodyWeight) {
+        bodyWeightKgInput.value = savedBodyWeight;
+    }
     calculateTotalWeight();
     updateLabels();
+    loadSavedResults(); // Load saved results and populate filter on page load
 });

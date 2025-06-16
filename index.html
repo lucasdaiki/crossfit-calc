@@ -30,6 +30,11 @@
             </label>
         </div>
 
+        <div class="body-weight-input">
+            <label for="bodyWeightKg">Seu Peso Corporal (kg):</label>
+            <input type="number" id="bodyWeightKg" value="0" min="0" step="0.1">
+        </div>
+
         <div class="plates">
             <h2>Anilhas (quantidade por lado):</h2>
             <div class="plate-input">
@@ -54,12 +59,43 @@
             </div>
         </div>
 
-
         <div class="results">
             <h2>Peso Total:</h2>
             <p>Libras (lbs): <span id="totalLbs">0</span></p>
             <p>Quilogramas (kg): <span id="totalKg">0</span></p>
+            <p>Carga como % do Peso Corporal: <span id="bodyWeightPercentage">0%</span></p>
         </div>
+
+        <div class="movement-selection">
+            <label for="movementSelect">Movimento:</label>
+            <select id="movementSelect">
+                <option value="Snatch">Snatch</option>
+                <option value="Squat Snatch">Squat Snatch</option>
+                <option value="Power Snatch">Power Snatch</option>
+                <option value="Hang Snatch">Hang Snatch</option>
+                <option value="Muscle Snatch">Muscle Snatch</option>
+                <option value="Snatch Balance">Snatch Balance</option>
+                <option value="Snatch Deadlift">Snatch Deadlift</option>
+                <option value="Snatch Pulls">Snatch Pulls</option>
+                <option value="Clean and Jerk">Clean and Jerk</option>
+                <option value="Clean">Clean</option>
+                <option value="Squat Clean">Squat Clean</option>
+                <option value="Power Clean">Power Clean</option>
+                <option value="Hang Clean">Hang Clean</option>
+                <option value="Muscle Clean">Muscle Clean</option>
+                <option value="Jerk">Jerk</option>
+                <option value="Push Jerk">Push Jerk</option>
+                <option value="Split Jerk">Split Jerk</option>
+                <option value="Push Press">Push Press</option>
+                <option value="Front Squat">Front Squat</option>
+                <option value="Overhead Squat">Overhead Squat</option>
+                <option value="Back Squat">Back Squat</option>
+                <option value="Thruster">Thruster</option>
+                <option value="Deadlift">Deadlift</option>
+                <option value="Sumo Deadlift High Pull">Sumo Deadlift High Pull</option>
+            </select>
+        </div>
+        <button id="saveResult">Salvar Resultado</button>
 
         <div class="percentages">
             <h2>Percentuais da Carga Total:</h2>
@@ -89,6 +125,21 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="saved-results">
+            <h2>Resultados Salvos:</h2>
+            <div class="filter-movement">
+                <label for="filterMovementSelect">Filtrar por Movimento:</label>
+                <select id="filterMovementSelect">
+                    <option value="all">Todos os Movimentos</option>
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <ul id="savedResultsList">
+                <!-- Saved results will be loaded here by JavaScript -->
+            </ul>
+            <button id="clearSavedResults">Limpar Resultados Salvos</button>
         </div>
     </div>
 

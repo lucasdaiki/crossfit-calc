@@ -45,6 +45,30 @@ h1, h2 {
     text-align: left;
 }
 
+.body-weight-input {
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.body-weight-input label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.body-weight-input input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
 .plate-input {
     display: flex;
     justify-content: space-between;
@@ -127,4 +151,96 @@ button:hover {
 
 .percentages tbody tr:nth-child(even) {
     background-color: #f2f2f2;
+}
+
+#saveResult, #clearSavedResults {
+    margin-top: 20px;
+    background-color: #28a745; /* Green for save */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+#saveResult:hover {
+    background-color: #218838;
+}
+
+#clearSavedResults {
+    background-color: #dc3545; /* Red for clear */
+    margin-left: 10px;
+}
+
+#clearSavedResults:hover {
+    background-color: #c82333;
+}
+
+.movement-selection {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.movement-selection label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.movement-selection select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.saved-results {
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #e9f7ff;
+    text-align: left;
+}
+
+.saved-results ul {
+    list-style: none;
+    padding: 0;
+}
+
+.saved-results li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+
+.filter-movement {
+    margin-bottom: 15px;
+}
+
+.filter-movement label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.filter-movement select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95em;
+    box-sizing: border-box;
 }
