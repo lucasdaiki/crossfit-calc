@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Peso de LPO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Peso de LPO</h1>
+
+        <div class="unit-selection">
+            <h2>Unidade de Peso:</h2>
+            <label>
+                <input type="radio" name="unit" value="lbs" checked> Libras (lbs)
+            </label>
+            <label>
+                <input type="radio" name="unit" value="kg"> Quilogramas (kg)
+            </label>
+        </div>
+
+        <div class="bar-type">
+            <h2>Tipo de Barra:</h2>
+            <label>
+                <input type="radio" name="bar" value="male" checked> Masculina
+            </label>
+            <label>
+                <input type="radio" name="bar" value="female"> Feminina
+            </label>
+        </div>
+
+        <div class="plates">
+            <h2>Anilhas (quantidade por lado):</h2>
+            <div class="plate-input">
+                <label for="black">Preta:</label>
+                <input type="number" id="black" value="0" min="0">
+            </div>
+            <div class="plate-input">
+                <label for="green">Verde:</label>
+                <input type="number" id="green" value="0" min="0">
+            </div>
+            <div class="plate-input">
+                <label for="yellow">Amarela:</label>
+                <input type="number" id="yellow" value="0" min="0">
+            </div>
+            <div class="plate-input">
+                <label for="blue">Azul:</label>
+                <input type="number" id="blue" value="0" min="0">
+            </div>
+            <div class="plate-input">
+                <label for="red">Vermelha:</label>
+                <input type="number" id="red" value="0" min="0">
+            </div>
+        </div>
+
+
+        <div class="results">
+            <h2>Peso Total:</h2>
+            <p>Libras (lbs): <span id="totalLbs">0</span></p>
+            <p>Quilogramas (kg): <span id="totalKg">0</span></p>
+        </div>
+
+        <div class="percentages">
+            <h2>Percentuais da Carga Total:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Percentual</th>
+                        <th>Libras (lbs)</th>
+                        <th>Quilogramas (kg)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>25%</td>
+                        <td id="percent25Lbs">0</td>
+                        <td id="percent25Kg">0</td>
+                    </tr>
+                    <tr>
+                        <td>50%</td>
+                        <td id="percent50Lbs">0</td>
+                        <td id="percent50Kg">0</td>
+                    </tr>
+                    <tr>
+                        <td>75%</td>
+                        <td id="percent75Lbs">0</td>
+                        <td id="percent75Kg">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

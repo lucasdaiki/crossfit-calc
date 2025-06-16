@@ -1,0 +1,130 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #0056b3;
+}
+
+.bar-type, .plates {
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.bar-type label, .unit-selection label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.unit-selection {
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.plate-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.plate-input label {
+    flex: 1;
+    font-size: 1.1em;
+}
+
+.plate-input input[type="number"] {
+    flex: 0.5;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1em;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.results {
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #e9f7ff;
+}
+
+.results p {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+.results span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.percentages {
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #e9f7ff;
+}
+
+.percentages table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.percentages th, .percentages td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.percentages th {
+    background-color: #007bff;
+    color: white;
+}
+
+.percentages tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
