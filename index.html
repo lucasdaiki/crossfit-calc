@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Peso de LPO</title>
+    <title>Calculadora de carga</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora de Peso de LPO</h1>
+        <h1>Calculadora de carga</h1>
 
         <div class="unit-selection">
             <h2>Unidade de Peso:</h2>
@@ -32,38 +32,38 @@
 
         <div class="body-weight-input">
             <label for="bodyWeightKg">Seu Peso Corporal (kg):</label>
-            <input type="number" id="bodyWeightKg" value="" min="0" step="0.1">
+            <input type="number" id="bodyWeightKg" value="" min="0" step="0.1" inputmode="numeric">
         </div>
 
         <div class="plates">
             <h2>Anilhas (quantidade por lado):</h2>
             <div class="plate-input">
                 <label for="black">Preta:</label>
-                <input type="number" id="black" value="" min="0">
+                <input type="number" id="black" value="" min="0" inputmode="numeric">
                 <button class="plate-btn" data-plate="black" data-action="decrement">-</button>
                 <button class="plate-btn" data-plate="black" data-action="increment">+</button>
             </div>
             <div class="plate-input">
                 <label for="green">Verde:</label>
-                <input type="number" id="green" value="" min="0">
+                <input type="number" id="green" value="" min="0" inputmode="numeric">
                 <button class="plate-btn" data-plate="green" data-action="decrement">-</button>
                 <button class="plate-btn" data-plate="green" data-action="increment">+</button>
             </div>
             <div class="plate-input">
                 <label for="yellow">Amarela:</label>
-                <input type="number" id="yellow" value="" min="0">
+                <input type="number" id="yellow" value="" min="0" inputmode="numeric">
                 <button class="plate-btn" data-plate="yellow" data-action="decrement">-</button>
                 <button class="plate-btn" data-plate="yellow" data-action="increment">+</button>
             </div>
             <div class="plate-input">
                 <label for="blue">Azul:</label>
-                <input type="number" id="blue" value="" min="0">
+                <input type="number" id="blue" value="" min="0" inputmode="numeric">
                 <button class="plate-btn" data-plate="blue" data-action="decrement">-</button>
                 <button class="plate-btn" data-plate="blue" data-action="increment">+</button>
             </div>
             <div class="plate-input">
                 <label for="red">Vermelha:</label>
-                <input type="number" id="red" value="" min="0">
+                <input type="number" id="red" value="" min="0" inputmode="numeric">
                 <button class="plate-btn" data-plate="red" data-action="decrement">-</button>
                 <button class="plate-btn" data-plate="red" data-action="increment">+</button>
             </div>
