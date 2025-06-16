@@ -203,6 +203,25 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateTotalWeight(); // Recalculate on body weight change
     });
 
+    // Add event listeners for plate increment/decrement buttons
+    const plateButtons = document.querySelectorAll('.plate-btn');
+    plateButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const plateColor = event.target.dataset.plate;
+            const action = event.target.dataset.action;
+            const plateInput = plateInputs[plateColor];
+            let currentValue = parseInt(plateInput.value) || 0;
+
+            if (action === 'increment') {
+                currentValue++;
+            } else if (action === 'decrement') {
+                currentValue = Math.max(0, currentValue - 1);
+            }
+            plateInput.value = currentValue;
+            calculateTotalWeight();
+        });
+    });
+
     // Initial calculation and label update on page load
     const savedBodyWeight = localStorage.getItem('bodyWeightKg');
     if (savedBodyWeight) {
