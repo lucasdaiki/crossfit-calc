@@ -69,6 +69,46 @@ h1, h2 {
     box-sizing: border-box;
 }
 
+.load-input {
+    margin-top: 15px; /* Space from previous element */
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.load-input label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.load-input input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1em;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Space between input and unit selection */
+}
+
+.load-unit-selection {
+    display: flex;
+    justify-content: space-around; /* Distribute space evenly */
+    margin-top: 10px;
+}
+
+.load-unit-selection label {
+    display: flex; /* Align radio button and text */
+    align-items: center;
+    margin-bottom: 0; /* Remove default label margin */
+    font-size: 1em;
+}
+
+.load-unit-selection input[type="radio"] {
+    margin-right: 5px; /* Space between radio and text */
+}
+
 .plate-input {
     display: flex;
     justify-content: space-between;
@@ -273,4 +313,51 @@ button:hover {
     border-radius: 4px;
     font-size: 0.95em;
     box-sizing: border-box;
+}
+
+/* Tab styles */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    position: relative; /* Ensure z-index works */
+    z-index: 10; /* Bring tabs to front */
+}
+
+.tab-button {
+    background-color: #f0f0f0;
+    color: #0056b3;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer !important; /* Ensure cursor is applied */
+    font-size: 1.1em;
+    margin: 0 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative; /* Ensure z-index works */
+    z-index: 9999 !important; /* Bring buttons to very front */
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+.tab-button.active {
+    background-color: #007bff;
+    color: white;
+    border-bottom: 3px solid #007bff;
+}
+
+.tab-button.active:hover {
+    background-color: #007bff; /* Keep active tab color on hover */
+}
+
+.tab-content {
+    display: none; /* Hidden by default */
+    padding-top: 20px;
+}
+
+.tab-content.active {
+    display: block; /* Show active tab content */
 }

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Tabs container:', document.querySelector('.tabs')); // Debugging log
     const barTypeRadios = document.querySelectorAll('input[name="bar"]');
     const unitRadios = document.querySelectorAll('input[name="unit"]');
     const plateInputs = {
@@ -23,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterMovementSelect = document.getElementById('filterMovementSelect');
     const bodyWeightKgInput = document.getElementById('bodyWeightKg');
     const bodyWeightPercentageSpan = document.getElementById('bodyWeightPercentage');
+    const loadInput = document.getElementById('loadInput'); // New: Get load input
+    const loadUnitRadios = document.querySelectorAll('input[name="loadUnit"]'); // New: Get load unit radios
 
     const BAR_WEIGHTS_LBS = {
         male: 45,
@@ -65,6 +68,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const weightDisplay = currentUnit === 'lbs' ? `${weightLbs}lb` : `${(weightLbs * LBS_TO_KG_FACTOR).toFixed(2)}kg`;
             document.querySelector(`label[for="${color}"]`).textContent = `${color.charAt(0).toUpperCase() + color.slice(1)} (${weightDisplay}):`;
         }
+    }
+
+    function getSelectedLoadUnit() {
+        let selectedLoadUnit = 'lbs';
+        loadUnitRadios.forEach(radio => {
+            if (radio.checked) {
+                selectedLoadUnit = radio.value;
+            }
+        });
+        return selectedLoadUnit;
+    }
+
+    function updateLoadLabel() {
+        const currentLoadUnit = getSelectedLoadUnit();
+        document.querySelector('label[for="loadInput"]').textContent = `Carga (${currentLoadUnit}):`;
     }
 
     function calculateTotalWeight() {
@@ -119,11 +137,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const selectedMovement = movementSelect.value;
         const bodyWeightKg = parseFloat(bodyWeightKgInput.value);
+        const loadValue = parseFloat(loadInput.value);
+        const selectedLoadUnit = getSelectedLoadUnit();
+
+        let loadLbs = 0;
+        let loadKg = 0;
+
+        if (!isNaN(loadValue)) {
+            if (selectedLoadUnit === 'lbs') {
+                loadLbs = loadValue;
+                loadKg = loadValue * LBS_TO_KG_FACTOR;
+            } else { // kg
+                loadKg = loadValue;
+                loadLbs = loadValue / LBS_TO_KG_FACTOR;
+            }
+        }
+
         const newResult = {
             movement: selectedMovement,
             lbs: currentLbs,
             kg: currentKg,
             bodyWeightKg: bodyWeightKg, // Save body weight
+            loadLbs: loadLbs, // Save load in lbs
+            loadKg: loadKg, // Save load in kg
             date: new Date().toLocaleString()
         };
 
@@ -153,7 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
             filteredResults.forEach(result => {
                 const li = document.createElement('li');
             const bodyWeightInfo = result.bodyWeightKg ? ` (BW: ${result.bodyWeightKg.toFixed(1)}kg)` : '';
-            li.textContent = `${result.date} - ${result.movement}: ${result.lbs.toFixed(2)} lbs / ${result.kg.toFixed(2)} kg${bodyWeightInfo}`;
+            const loadInfo = (result.loadLbs || result.loadKg) ? ` (Carga: ${result.loadLbs.toFixed(2)} lbs / ${result.loadKg.toFixed(2)} kg)` : ''; // Display both load units
+            li.textContent = `${result.date} - ${result.movement}: ${result.lbs.toFixed(2)} lbs / ${result.kg.toFixed(2)} kg${bodyWeightInfo}${loadInfo}`;
             savedResultsList.appendChild(li);
         });
         }
@@ -222,12 +259,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initial calculation and label update on page load
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    console.log('tabButtons:', tabButtons); // Debugging log
+    console.log('tabContents:', tabContents); // Debugging log
+
+    function showTab(tabId) {
+        console.log('Showing tab:', tabId); // Debugging log
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+        tabButtons.forEach(button => {
+            button.classList.remove('active');
+        });
+
+        const targetTabContent = document.getElementById(tabId);
+        const targetTabButton = document.querySelector(`.tab-button[data-tab="${tabId.replace('-tab', '')}"]`);
+
+        if (targetTabContent) {
+            targetTabContent.classList.add('active');
+        }
+        if (targetTabButton) {
+            targetTabButton.classList.add('active');
+        }
+
+        if (tabId === 'history-tab') {
+            loadSavedResults(); // Ensure history is loaded when tab is active
+        }
+    }
+
+    tabButtons.forEach(button => {
+        console.log('Attaching listener to button:', button); // Debugging log
+        button.addEventListener('click', (event) => {
+            const tabId = event.target.dataset.tab + '-tab';
+            console.log('Tab button clicked, tabId:', tabId); // Debugging log
+            showTab(tabId);
+        });
+    });
+
+    // Add event listener for load unit radios
+    loadUnitRadios.forEach(radio => {
+        radio.addEventListener('change', updateLoadLabel);
+    });
+
+    // Initial setup on page load
     const savedBodyWeight = localStorage.getItem('bodyWeightKg');
     if (savedBodyWeight) {
         bodyWeightKgInput.value = savedBodyWeight;
     }
     calculateTotalWeight();
     updateLabels();
-    loadSavedResults(); // Load saved results and populate filter on page load
+    updateLoadLabel(); // New: Update load label on page load
+    showTab('calculator-tab'); // Show calculator tab by default
 });
