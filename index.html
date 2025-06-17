@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>Calculadora de carga</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -168,14 +169,13 @@
                             <th>Peso Corporal (kg)</th>
                             <th>Carga (lbs)</th>
                             <th>Carga (kg)</th>
-                            <th>Total (lbs)</th>
-                            <th>Total (kg)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Saved results will be loaded here by JavaScript -->
                     </tbody>
                 </table>
+                <canvas id="loadEvolutionChart" width="400" height="200"></canvas>
                 <button id="clearSavedResults">Limpar Resultados Salvos</button>
             </div>
         </div>

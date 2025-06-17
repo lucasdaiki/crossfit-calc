@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const bodyWeightPercentageSpan = document.getElementById('bodyWeightPercentage');
     const loadInput = document.getElementById('loadInput'); // New: Get load input
     const loadUnitRadios = document.querySelectorAll('input[name="loadUnit"]'); // New: Get load unit radios
+    const loadEvolutionChartCanvas = document.getElementById('loadEvolutionChart'); // New: Get chart canvas
+    let loadChart; // Declare chart variable globally or in a scope accessible by update function
 
     const BAR_WEIGHTS_LBS = {
         male: 45,
@@ -190,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (filteredResults.length === 0) {
             const tr = document.createElement('tr');
             const td = document.createElement('td');
-            td.colSpan = 7; // Span all columns
+            td.colSpan = 5; // Span all columns (Data, Movimento, Peso Corporal, Carga lbs, Carga kg)
             td.textContent = 'Nenhum resultado salvo ainda para este filtro.';
             tr.appendChild(td);
             tbody.appendChild(tr);
@@ -203,10 +205,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${result.bodyWeightKg ? result.bodyWeightKg.toFixed(1) : 'N/A'}</td>
                     <td>${result.loadLbs ? result.loadLbs.toFixed(2) : 'N/A'}</td>
                     <td>${result.loadKg ? result.loadKg.toFixed(2) : 'N/A'}</td>
-                    <td>${result.lbs.toFixed(2)}</td>
-                    <td>${result.kg.toFixed(2)}</td>
                 `;
                 tbody.appendChild(tr);
+            });
+        }
+
+        // Update chart data
+        const chartLabels = filteredResults.map(result => result.date);
+        const chartData = filteredResults.map(result => result.loadKg);
+
+        if (loadChart) {
+            loadChart.data.labels = chartLabels;
+            loadChart.data.datasets[0].data = chartData;
+            loadChart.update();
+        } else {
+            // This part should ideally not be reached if chart is initialized on DOMContentLoaded
+            // but as a fallback or if chart is created dynamically
+            loadChart = new Chart(loadEvolutionChartCanvas, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Carga (kg)',
+                        data: chartData,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'category',
+                            title: {
+                                display: true,
+                                text: 'Data'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Carga (kg)'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
             });
         }
 
@@ -326,5 +370,39 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateTotalWeight();
     updateLabels();
     updateLoadLabel(); // New: Update load label on page load
+
+    // Initialize Chart.js
+    loadChart = new Chart(loadEvolutionChartCanvas, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Carga (kg)',
+                data: [],
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'category',
+                    title: {
+                        display: true,
+                        text: 'Data'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Carga (kg)'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
     showTab('calculator-tab'); // Show calculator tab by default
 });
