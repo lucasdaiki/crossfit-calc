@@ -211,7 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Update chart data
-        const chartLabels = filteredResults.map(result => result.date);
+        const chartLabels = filteredResults.map(result => new Date(result.date).toDateString());
+        console.log(filteredResults)
         const chartData = filteredResults.map(result => result.loadKg);
 
         if (loadChart) {
