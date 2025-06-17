@@ -18,10 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const percent75LbsSpan = document.getElementById('percent75Lbs');
     const percent75KgSpan = document.getElementById('percent75Kg');
     const saveResultButton = document.getElementById('saveResult');
-    const savedResultsList = document.getElementById('savedResultsList');
+    const savedResultsTable = document.getElementById('savedResultsTable'); // Changed from List to Table
     const clearSavedResultsButton = document.getElementById('clearSavedResults');
     const movementSelect = document.getElementById('movementSelect');
-    const filterMovementSelect = document.getElementById('filterMovementSelect');
+    // Removed filterMovementSelect
     const bodyWeightKgInput = document.getElementById('bodyWeightKg');
     const bodyWeightPercentageSpan = document.getElementById('bodyWeightPercentage');
     const loadInput = document.getElementById('loadInput'); // New: Get load input
@@ -136,6 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedResults = JSON.parse(localStorage.getItem('lpoResults')) || [];
 
         const selectedMovement = movementSelect.value;
+        if(selectedMovement === 'all') {
+            return;
+        }
+        
         const bodyWeightKg = parseFloat(bodyWeightKgInput.value);
         const loadValue = parseFloat(loadInput.value);
         const selectedLoadUnit = getSelectedLoadUnit();
@@ -169,9 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadSavedResults() {
-        savedResultsList.innerHTML = ''; // Clear current list
+        const tbody = savedResultsTable.querySelector('tbody');
+        tbody.innerHTML = ''; // Clear current table body
+
         const savedResults = JSON.parse(localStorage.getItem('lpoResults')) || [];
-        const selectedFilterMovement = filterMovementSelect.value;
+        const selectedFilterMovement = movementSelect.value; // Use movementSelect for filtering
 
         const movements = new Set();
         movements.add('all'); // Add "Todos os Movimentos" option
@@ -182,29 +188,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (filteredResults.length === 0) {
-            const li = document.createElement('li');
-            li.textContent = 'Nenhum resultado salvo ainda para este filtro.';
-            savedResultsList.appendChild(li);
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.colSpan = 7; // Span all columns
+            td.textContent = 'Nenhum resultado salvo ainda para este filtro.';
+            tr.appendChild(td);
+            tbody.appendChild(tr);
         } else {
             filteredResults.forEach(result => {
-                const li = document.createElement('li');
-            const bodyWeightInfo = result.bodyWeightKg ? ` (BW: ${result.bodyWeightKg.toFixed(1)}kg)` : '';
-            const loadInfo = (result.loadLbs || result.loadKg) ? ` (Carga: ${result.loadLbs.toFixed(2)} lbs / ${result.loadKg.toFixed(2)} kg)` : ''; // Display both load units
-            li.textContent = `${result.date} - ${result.movement}: ${result.lbs.toFixed(2)} lbs / ${result.kg.toFixed(2)} kg${bodyWeightInfo}${loadInfo}`;
-            savedResultsList.appendChild(li);
-        });
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${result.date}</td>
+                    <td>${result.movement}</td>
+                    <td>${result.bodyWeightKg ? result.bodyWeightKg.toFixed(1) : 'N/A'}</td>
+                    <td>${result.loadLbs ? result.loadLbs.toFixed(2) : 'N/A'}</td>
+                    <td>${result.loadKg ? result.loadKg.toFixed(2) : 'N/A'}</td>
+                    <td>${result.lbs.toFixed(2)}</td>
+                    <td>${result.kg.toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
-        // Populate filter dropdown with unique movements
+        // Populate filter dropdown with unique movements (still using movementSelect)
         savedResults.forEach(result => movements.add(result.movement));
-        filterMovementSelect.innerHTML = ''; // Clear existing options
-        movements.forEach(movement => {
-            const option = document.createElement('option');
-            option.value = movement;
-            option.textContent = movement === 'all' ? 'Todos os Movimentos' : movement;
-            filterMovementSelect.appendChild(option);
-        });
-        filterMovementSelect.value = selectedFilterMovement; // Keep the selected filter
+        // movementSelect.innerHTML = ''; // Clear existing options
+        // movements.forEach(movement => {
+        //     const option = document.createElement('option');
+        //     option.value = movement;
+        //     option.textContent = movement === 'all' ? 'Todos os Movimentos' : movement;
+        //     movementSelect.appendChild(option);
+        // });
+        // movementSelect.value = selectedFilterMovement; // Keep the selected filter
     }
 
     function clearSavedResults() {
@@ -231,8 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     saveResultButton.addEventListener('click', saveResult);
     clearSavedResultsButton.addEventListener('click', clearSavedResults);
 
-    // Add event listener for filter dropdown
-    filterMovementSelect.addEventListener('change', loadSavedResults);
+    // Add event listener for movement select to filter results
+    movementSelect.addEventListener('change', loadSavedResults);
 
     // Add event listener for body weight input
     bodyWeightKgInput.addEventListener('input', () => {

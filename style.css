@@ -223,6 +223,28 @@ button:hover {
     background-color: #f2f2f2;
 }
 
+#savedResultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.9em; /* Slightly smaller font for more data */
+}
+
+#savedResultsTable th, #savedResultsTable td {
+    border: 1px solid #ddd;
+    padding: 8px; /* Slightly less padding */
+    text-align: center;
+}
+
+#savedResultsTable th {
+    background-color: #007bff;
+    color: white;
+}
+
+#savedResultsTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
 #saveResult, #clearSavedResults {
     margin-top: 20px;
     background-color: #28a745; /* Green for save */

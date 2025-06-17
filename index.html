@@ -116,7 +116,8 @@
         <div id="history-tab" class="tab-content">
             <div class="movement-selection">
                 <label for="movementSelect">Movimento:</label>
-                <select id="movementSelect">
+                <select id="movementSelect"> 
+                    <option value="all" selected>Todos os movimentos</option>
                     <option value="Snatch">Snatch</option>
                     <option value="Squat Snatch">Squat Snatch</option>
                     <option value="Power Snatch">Power Snatch</option>
@@ -159,16 +160,22 @@
 
             <div class="saved-results">
                 <h2>Resultados Salvos:</h2>
-                <div class="filter-movement">
-                    <label for="filterMovementSelect">Filtrar por Movimento:</label>
-                    <select id="filterMovementSelect">
-                        <option value="all">Todos os Movimentos</option>
-                        <!-- Options will be populated by JavaScript -->
-                    </select>
-                </div>
-                <ul id="savedResultsList">
-                    <!-- Saved results will be loaded here by JavaScript -->
-                </ul>
+                <table id="savedResultsTable">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Movimento</th>
+                            <th>Peso Corporal (kg)</th>
+                            <th>Carga (lbs)</th>
+                            <th>Carga (kg)</th>
+                            <th>Total (lbs)</th>
+                            <th>Total (kg)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Saved results will be loaded here by JavaScript -->
+                    </tbody>
+                </table>
                 <button id="clearSavedResults">Limpar Resultados Salvos</button>
             </div>
         </div>
